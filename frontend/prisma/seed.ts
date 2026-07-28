@@ -4,11 +4,8 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  const office = await prisma.office.upsert({
-    where: { id: "hq-office" },
-    update: {},
-    create: {
-      id: "hq-office",
+  const office = await prisma.office.create({
+    data: {
       name: "HQ Main Office",
       latitude: -6.2088,
       longitude: 106.8456,
