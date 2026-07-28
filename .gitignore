@@ -5,6 +5,7 @@ build/
 .env
 .env.local
 uploads/
+backend/
 *.log
 .DS_Store
 Thumbs.db
