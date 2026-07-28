@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 
 const SECRET = process.env.JWT_SECRET || "fallback-dev-secret";
 
@@ -9,7 +9,8 @@ export interface TokenPayload {
 }
 
 export function generateToken(payload: TokenPayload): string {
-  return jwt.sign(payload, SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || "24h" });
+  const opts: SignOptions = { expiresIn: (process.env.JWT_EXPIRES_IN || "24h") as any };
+  return jwt.sign(payload, SECRET, opts);
 }
 
 export function verifyToken(token: string): TokenPayload {
