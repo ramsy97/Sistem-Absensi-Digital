@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WorkSync Pro | Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto auto;
+            gap: 16px;
+        }
+        @media (max-width: 1024px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 640px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#dfe0e0",
+                      "surface-container-high": "#dce9ff",
+                      "tertiary-container": "#3e4c5c",
+                      "secondary-fixed": "#e2e2e2",
+                      "on-tertiary-fixed": "#0e1d2b",
+                      "on-surface-variant": "#444653",
+                      "primary": "#00288e",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed-dim": "#b8c4ff",
+                      "surface-container-highest": "#d3e4fe",
+                      "on-error-container": "#93000a",
+                      "on-tertiary-container": "#adbccf",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#b9c8db",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed-variant": "#3a4858",
+                      "tertiary": "#273545",
+                      "inverse-primary": "#b8c4ff",
+                      "outline": "#757684",
+                      "on-primary-fixed": "#001453",
+                      "inverse-on-surface": "#eaf1ff",
+                      "tertiary-fixed": "#d5e4f8",
+                      "primary-container": "#1e40af",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "on-secondary-container": "#616363",
+                      "surface-bright": "#f8f9ff",
+                      "on-secondary-fixed-variant": "#454747",
+                      "on-primary-container": "#a8b8ff",
+                      "surface-container": "#e5eeff",
+                      "surface": "#f8f9ff",
+                      "surface-tint": "#3755c3",
+                      "on-tertiary": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "secondary": "#5d5f5f",
+                      "primary-fixed": "#dde1ff",
+                      "on-background": "#0b1c30",
+                      "surface-variant": "#d3e4fe",
+                      "error": "#ba1a1a",
+                      "inverse-surface": "#213145",
+                      "surface-container-low": "#eff4ff",
+                      "surface-dim": "#cbdbf5",
+                      "on-primary-fixed-variant": "#173bab",
+                      "outline-variant": "#c4c5d5",
+                      "on-surface": "#0b1c30",
+                      "background": "#f8f9ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "max-width-content": "480px",
+                      "xs": "4px",
+                      "margin-mobile": "16px",
+                      "gutter": "16px",
+                      "md": "16px",
+                      "sm": "8px",
+                      "xl": "32px",
+                      "margin-desktop": "auto",
+                      "lg": "24px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "body-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Manrope"],
+                      "display-lg": ["Manrope"],
+                      "label-caps": ["Inter"],
+                      "headline-lg-mobile": ["Manrope"],
+                      "data-mono": ["JetBrains Mono"],
+                      "headline-md": ["Manrope"]
+              },
+              "fontSize": {
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-md h-12 fixed top-0 z-50 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-sm">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">WorkSync Pro</span>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden md:flex items-center bg-surface-container-low px-sm py-1 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-48" placeholder="Search employees..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-xs rounded-full hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<button class="p-xs rounded-full hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate HR administrator, a woman in her late 30s with a confident smile, wearing a sharp navy blue blazer. The lighting is soft and flattering, typical of high-end business portraiture. The background is a blurred modern office setting with cool blue tones and glass partitions, maintaining a clean and authoritative aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ1HqiXIxD81jX1g0FvNBIwtdFFkT7codZ_391EZ06AK6SjR42uo7M7cb2le7c2aCWRoHgCNqzC3n21jy_ENZL81_E5VEvrUM9Ijbj56yoDo6jQnXMqRyc_jcQDYMd2VIE4_-KPrADv7IKeWNQHNoZbhb8cmyqUZTh1iSz3m71GTuVZ0ORcK6MN5W9jbTPCdgdzOA9ZBQmNIaNQhAHRmYYPDYu-8Eof5DC4WKmY2BjPAa0ENnvS5Jj"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-screen p-md gap-sm w-64 fixed left-0 top-0 z-40 bg-surface-bright dark:bg-inverse-surface border-r border-outline-variant dark:border-outline pt-16">
+<div class="flex flex-col gap-xs mb-lg">
+<div class="flex items-center gap-sm px-sm py-md">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container fill-icon">corporate_fare</span>
+</div>
+<div>
+<p class="font-headline-md text-[16px] font-bold text-primary">Admin Portal</p>
+<p class="text-[11px] text-on-surface-variant uppercase tracking-wider">Enterprise Edition</p>
+</div>
+</div>
+</div>
+<nav class="flex-grow flex flex-col gap-1">
+<a class="flex items-center gap-md px-md py-3 bg-primary-container text-on-primary-container rounded-lg font-bold transition-all duration-200" href="#">
+<span class="material-symbols-outlined fill-icon">dashboard</span>
+<span class="text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200" href="#">
+<span class="material-symbols-outlined">event_available</span>
+<span class="text-body-md">Attendance</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-body-md">Schedule</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-1 pt-md border-t border-outline-variant">
+<button class="w-full bg-primary text-on-primary font-bold py-3 rounded-lg mb-md active:scale-95 transition-transform">
+                Clock In Now
+            </button>
+<a class="flex items-center gap-md px-md py-2 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="text-body-sm">Support</span>
+</a>
+<a class="flex items-center gap-md px-md py-2 text-error hover:bg-error-container transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-body-sm">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="lg:ml-64 pt-12 pb-20 lg:pb-md min-h-screen">
+<div class="p-md lg:p-xl max-w-7xl mx-auto">
+<!-- Header & Export Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-lg gap-md">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Dashboard Overview</h1>
+<p class="text-on-surface-variant font-body-md">Real-time attendance metrics for <span class="font-bold text-primary">Monday, Oct 23</span></p>
+</div>
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs px-md py-2 border border-outline-variant rounded-lg font-label-caps text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                        PDF
+                    </button>
+<button class="flex items-center gap-xs px-md py-2 bg-primary text-on-primary rounded-lg font-label-caps hover:shadow-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]">table_view</span>
+                        EXPORT EXCEL
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Summary Cards -->
+<div class="bento-grid mb-lg">
+<!-- Total Employees -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="p-sm bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-primary">groups</span>
+</div>
+<span class="text-[12px] text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded">+2% this month</span>
+</div>
+<div class="mt-md">
+<p class="text-label-caps text-on-surface-variant uppercase tracking-widest">Total Employees</p>
+<h2 class="text-[36px] font-extrabold text-on-surface leading-tight">1,248</h2>
+</div>
+</div>
+<!-- Present Today -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="p-sm bg-green-50 rounded-lg">
+<span class="material-symbols-outlined text-green-700">how_to_reg</span>
+</div>
+<div class="flex items-center gap-1 text-green-700 font-bold text-sm">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                            94%
+                        </div>
+</div>
+<div class="mt-md">
+<p class="text-label-caps text-on-surface-variant uppercase tracking-widest">Present Today</p>
+<h2 class="text-[36px] font-extrabold text-on-surface leading-tight">1,173</h2>
+</div>
+</div>
+<!-- Late -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="p-sm bg-red-50 rounded-lg">
+<span class="material-symbols-outlined text-red-700">alarm_off</span>
+</div>
+<div class="flex items-center gap-1 text-red-700 font-bold text-sm">
+<span class="material-symbols-outlined text-[16px]">priority_high</span>
+                            12 New
+                        </div>
+</div>
+<div class="mt-md">
+<p class="text-label-caps text-on-surface-variant uppercase tracking-widest">Late Arrivals</p>
+<h2 class="text-[36px] font-extrabold text-on-surface leading-tight">42</h2>
+</div>
+</div>
+<!-- Leave Requests -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="p-sm bg-surface-container-high rounded-lg">
+<span class="material-symbols-outlined text-primary">mail</span>
+</div>
+<div class="animate-pulse w-2 h-2 bg-primary rounded-full"></div>
+</div>
+<div class="mt-md">
+<p class="text-label-caps text-on-surface-variant uppercase tracking-widest">Leave Requests</p>
+<h2 class="text-[36px] font-extrabold text-on-surface leading-tight">18</h2>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-lg">
+<!-- Weekly Trend Chart (2/3 width) -->
+<div class="xl:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center">
+<div>
+<h3 class="font-headline-md text-on-surface">Presence Trend</h3>
+<p class="text-body-sm text-on-surface-variant">Daily attendance percentage over last 7 days</p>
+</div>
+<select class="bg-surface-container-low border border-outline-variant rounded-lg text-body-sm px-md py-1 focus:ring-primary">
+<option>This Week</option>
+<option>Last Week</option>
+</select>
+</div>
+<div class="p-lg flex-grow min-h-[300px] relative flex flex-col justify-end">
+<div class="flex items-end justify-between h-48 gap-xs md:gap-lg">
+<!-- Chart Bars with animated heights -->
+<div class="flex flex-col items-center flex-1 gap-sm group">
+<div class="w-full bg-primary/20 rounded-t-md relative h-[88%] transition-all duration-700 group-hover:bg-primary/40">
+<div class="absolute inset-0 bg-primary rounded-t-md h-0 group-hover:h-[95%] transition-all duration-1000 origin-bottom"></div>
+</div>
+<span class="text-label-caps text-on-surface-variant">MON</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-sm group">
+<div class="w-full bg-primary/20 rounded-t-md h-[92%] transition-all duration-700 group-hover:bg-primary/40"></div>
+<span class="text-label-caps text-on-surface-variant">TUE</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-sm group">
+<div class="w-full bg-primary/20 rounded-t-md h-[85%] transition-all duration-700 group-hover:bg-primary/40"></div>
+<span class="text-label-caps text-on-surface-variant">WED</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-sm group">
+<div class="w-full bg-primary/20 rounded-t-md h-[90%] transition-all duration-700 group-hover:bg-primary/40"></div>
+<span class="text-label-caps text-on-surface-variant">THU</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-sm group">
+<div class="w-full bg-primary/20 rounded-t-md h-[78%] transition-all duration-700 group-hover:bg-primary/40"></div>
+<span class="text-label-caps text-on-surface-variant">FRI</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-sm group">
+<div class="w-full bg-surface-container rounded-t-md h-[10%] transition-all duration-700"></div>
+<span class="text-label-caps text-on-surface-variant">SAT</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-sm group">
+<div class="w-full bg-surface-container rounded-t-md h-[5%] transition-all duration-700"></div>
+<span class="text-label-caps text-on-surface-variant">SUN</span>
+</div>
+</div>
+<!-- Horizontal Grid Lines -->
+<div class="absolute inset-x-lg bottom-12 top-lg pointer-events-none border-b border-outline-variant/30 flex flex-col justify-between">
+<div class="w-full border-t border-outline-variant/30"></div>
+<div class="w-full border-t border-outline-variant/30"></div>
+<div class="w-full border-t border-outline-variant/30"></div>
+</div>
+</div>
+</div>
+<!-- Recent Activity Feed (1/3 width) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col">
+<div class="p-lg border-b border-outline-variant">
+<h3 class="font-headline-md text-on-surface">Recent Activity</h3>
+</div>
+<div class="p-md flex-grow overflow-y-auto max-h-[400px]">
+<ul class="space-y-md">
+<li class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A close-up portrait of a young male professional with dark hair and glasses, wearing a business casual white shirt. The photo is set against a brightly lit modern office background with soft bokeh. The style is professional and consistent with a corporate enterprise dashboard identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQSfTDIEkqidwAFN5HK8OsFU97DLaNH2zpFaJSPFEo7Qk_KIVs_HW_KT3OGC4nneHguN1aVBBzLsLfLvtHYa_5dpgK0t7_QXCAS-EWTg59EHM50loRASL2SxcuYbDspnnc4ECkEArKFkkEqVyTJK8DKFVEgtJPl8QwPxINfwgsUNJ5LO1-ypoul9iLVh0aIZlGWKu0Zo9cTepMxLI-Kwq2Up8sxfJ8-4XCZPrgxSxpe3icHBylSkIi"/>
+</div>
+<div class="flex-grow">
+<p class="text-body-sm"><span class="font-bold text-on-surface">Sarah Chen</span> clocked in</p>
+<p class="text-[12px] text-on-surface-variant font-data-mono">08:42 AM • On Time</p>
+</div>
+</li>
+<li class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Professional avatar of a middle-aged man with graying hair, wearing a high-quality light blue polo shirt. The lighting is crisp and natural, highlighting a friendly but serious expression suitable for an HR system. The background is a clean, neutral architectural wall with a blue hue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKY9pxrKnsPk5T0_5QUzz5TKj2YxD5lFdddG6wvsqYlponAWOeDBENl4phfq7zjoBO8dGMHJxvzPAg7Yjh07A49hRuANCrzgxWBxknXa5pr8rPDeKDGO_dlhbO5VkOcpmMPivOmBFqSCe4op1g7Sqd0mRPtvIO2UBVHa4WkjuEJ5IdGg2QkUSMpPSz4GCqymir7Tthe6nLEi0NXlorWF7AgfmTq2Sf-htVsoHrubUuUjYJxSg5ZwQf"/>
+</div>
+<div class="flex-grow">
+<p class="text-body-sm"><span class="font-bold text-on-surface">Markus Wright</span> requested leave</p>
+<p class="text-[12px] text-on-surface-variant font-data-mono">09:15 AM • Annual Leave</p>
+</div>
+<button class="text-primary text-[12px] font-bold">Review</button>
+</li>
+<li class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Corporate headshot of a woman in her 20s with long dark hair, wearing a professional gray blazer and a subtle silver necklace. The image is captured with professional studio lighting against a soft-focus office backdrop. The color palette is dominated by professional blues and grays." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNyP4QfGNF_jPMxc-JwKLqiA3w6qcblA_H_FB6cB4PDWvu0rp-uxLmQkwlEIBoiLM1yzinSjTe58Kl3oQjpAJ1JcfZfo_2azsY-xM5bW4tQ9lJjg1XrV9HxA-m4FMnLoYwWR_rohFH6WV-IKSucf5SDZ2J2O8twOwOVuv3hkuWuc260QQbzCQIgb2i3h6GO0bgVBvnmeVtt6LEL9GhlE0Hw7qOm_1EQQhWBnnxd5tIVPSEQ9YOGV6E"/>
+</div>
+<div class="flex-grow">
+<p class="text-body-sm"><span class="font-bold text-on-surface">Jessica Lopez</span> arrived late</p>
+<p class="text-[12px] text-red-700 font-data-mono">09:34 AM • 34m Delay</p>
+</div>
+</li>
+<li class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Modern business portrait of a man with a beard and short dark hair, wearing a navy blue button-down shirt. The aesthetic is clean and professional, with bright, high-key lighting. The background features subtle linear architecture of a modern workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZngxnMqBFE4p1soL9hrsDt3YIHHZ5C29ca2X4FjQmFSYTEP6E_yQyUqxwsBKFnPVbztcCzUUedn0R9ylQoNcnuIIKbA2PzpVT0ByM0HpJ8hrYCs8OGb2Eeewdq97uk0m3hXdYMYwOQslqsKiAh_b8bLcX6ZQ9vBFJqxSC01rIaAmBHxlDD_qYaBsdWGfNVQ-1zQ9z9GjLBWUpv-SD8gKFPAt-vX54QEjZEBp9FNBUTyhJts_AoanT"/>
+</div>
+<div class="flex-grow">
+<p class="text-body-sm"><span class="font-bold text-on-surface">David Miller</span> clocked out</p>
+<p class="text-[12px] text-on-surface-variant font-data-mono">10:02 AM • Early Leave</p>
+</div>
+</li>
+</ul>
+</div>
+<button class="m-md p-sm text-body-sm text-primary font-bold hover:bg-surface-container rounded-lg transition-colors">
+                        View All Activity
+                    </button>
+</div>
+</div>
+<!-- Attendance Table Section -->
+<section class="mt-lg bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="p-lg border-b border-outline-variant flex flex-col md:flex-row md:items-center justify-between gap-md">
+<h3 class="font-headline-md text-on-surface">Detailed Attendance Logs</h3>
+<div class="flex gap-sm">
+<div class="flex items-center gap-xs px-sm py-1 border border-outline-variant rounded-lg text-body-sm">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                            Filter
+                        </div>
+<div class="flex items-center gap-xs px-sm py-1 border border-outline-variant rounded-lg text-body-sm">
+<span class="material-symbols-outlined text-[18px]">sort</span>
+                            Sort
+                        </div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase tracking-wider">Employee</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase tracking-wider">Department</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase tracking-wider">Check In</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase tracking-wider">Check Out</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase tracking-wider">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">JD</div>
+<div>
+<p class="font-bold text-on-surface">John Doe</p>
+<p class="text-body-sm text-on-surface-variant">john.doe@worksync.pro</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md text-body-sm">Engineering</td>
+<td class="px-lg py-md font-data-mono text-body-sm">08:00:12 AM</td>
+<td class="px-lg py-md font-data-mono text-body-sm">05:00:45 PM</td>
+<td class="px-lg py-md">
+<span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-[11px] font-bold uppercase tracking-wider">Present</span>
+</td>
+<td class="px-lg py-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold">AS</div>
+<div>
+<p class="font-bold text-on-surface">Alice Smith</p>
+<p class="text-body-sm text-on-surface-variant">alice.s@worksync.pro</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md text-body-sm">Marketing</td>
+<td class="px-lg py-md font-data-mono text-body-sm text-red-600">09:15:33 AM</td>
+<td class="px-lg py-md font-data-mono text-body-sm">—</td>
+<td class="px-lg py-md">
+<span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-[11px] font-bold uppercase tracking-wider">Late</span>
+</td>
+<td class="px-lg py-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center font-bold">RM</div>
+<div>
+<p class="font-bold text-on-surface">Robert Marsh</p>
+<p class="text-body-sm text-on-surface-variant">r.marsh@worksync.pro</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md text-body-sm">Human Resources</td>
+<td class="px-lg py-md font-data-mono text-body-sm">—</td>
+<td class="px-lg py-md font-data-mono text-body-sm">—</td>
+<td class="px-lg py-md">
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-[11px] font-bold uppercase tracking-wider">Leave</span>
+</td>
+<td class="px-lg py-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-lg border-t border-outline-variant flex items-center justify-between">
+<p class="text-body-sm text-on-surface-variant">Showing 1-10 of 1,248 employees</p>
+<div class="flex gap-xs">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant text-on-surface-variant hover:bg-surface-container"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface dark:bg-inverse-surface border-t border-outline-variant dark:border-outline shadow-md">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined fill-icon">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px]">Logs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-[10px]">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[10px]">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions and Clock logic
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                hour12: true 
+            });
+            // You could inject a clock element here if needed, 
+            // for now let's just log or keep the UI static as per dashboard needs.
+        }
+        setInterval(updateClock, 1000);
+
+        // Simple hover animation for table rows
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'translateX(4px)';
+                row.style.transition = 'transform 0.2s ease-out';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body></html>

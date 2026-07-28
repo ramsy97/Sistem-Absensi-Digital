@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  employee
+}
+
+enum AttendanceStatus {
+  on_time
+  late
+  absent
+}
+
+enum LeaveType {
+  sick
+  annual
+  personal
+  unpaid
+  maternity
+}
+
+enum LeaveStatus {
+  pending
+  approved
+  rejected
+}
+
+model Office {
+  id            String       @id @default(uuid()) @db.Uuid
+  name          String
+  latitude      Float
+  longitude     Float
+  radiusMeters  Int          @default(100)
+  workStartTime String       @default("09:00")
+  workEndTime   String       @default("18:00")
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
+  users         User[]
+  attendances   Attendance[]
+
+  @@map("offices")
+}
+
+model User {
+  id            String          @id @default(uuid()) @db.Uuid
+  username      String          @unique
+  password      String
+  fullName      String          @map("full_name")
+  email         String          @unique
+  phone         String?
+  avatarUrl     String?         @map("avatar_url")
+  role          Role            @default(employee)
+  officeId      String?         @map("office_id") @db.Uuid
+  office        Office?         @relation(fields: [officeId], references: [id])
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+  attendances   Attendance[]
+  leaveRequests LeaveRequest[]
+  processedLeaves LeaveRequest[] @relation("ProcessedLeaves")
+
+  @@map("users")
+}
+
+model Attendance {
+  id           String           @id @default(uuid()) @db.Uuid
+  userId       String           @map("user_id") @db.Uuid
+  user         User             @relation(fields: [userId], references: [id])
+  officeId     String?          @map("office_id") @db.Uuid
+  office       Office?          @relation(fields: [officeId], references: [id])
+  checkInTime  DateTime         @map("check_in_time")
+  checkOutTime DateTime?        @map("check_out_time")
+  checkInPhoto String?          @map("check_in_photo")
+  checkOutPhoto String?         @map("check_out_photo")
+  checkInLat   Float?           @map("check_in_lat")
+  checkInLong  Float?           @map("check_in_long")
+  checkOutLat  Float?           @map("check_out_lat")
+  checkOutLong Float?           @map("check_out_long")
+  status       AttendanceStatus @default(on_time)
+  notes        String?
+  createdAt    DateTime         @default(now()) @map("created_at")
+  updatedAt    DateTime         @updatedAt @map("updated_at")
+
+  @@map("attendances")
+}
+
+model LeaveRequest {
+  id           String       @id @default(uuid()) @db.Uuid
+  userId       String       @map("user_id") @db.Uuid
+  user         User         @relation(fields: [userId], references: [id])
+  type         LeaveType
+  startDate    DateTime     @map("start_date")
+  endDate      DateTime     @map("end_date")
+  reason       String       @db.Text
+  attachmentUrl String?     @map("attachment_url")
+  status       LeaveStatus  @default(pending)
+  processedBy  String?      @map("processed_by") @db.Uuid
+  processor    User?        @relation("ProcessedLeaves", fields: [processedBy], references: [id])
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+
+  @@map("leave_requests")
+}
