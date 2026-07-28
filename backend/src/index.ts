@@ -2,12 +2,16 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
+import fs from "fs";
 import { authRoutes } from "./routes/authRoutes";
 import { attendanceRoutes } from "./routes/attendanceRoutes";
 import { leaveRoutes } from "./routes/leaveRoutes";
 import { adminRoutes } from "./routes/adminRoutes";
 
 dotenv.config();
+
+const uploadsDir = path.join(__dirname, "../uploads");
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
